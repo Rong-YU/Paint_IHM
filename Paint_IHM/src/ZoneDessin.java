@@ -27,8 +27,22 @@ public class ZoneDessin extends JPanel{
         addMouseListener( handler );
         addMouseMotionListener( handler ); 
 	}
-
 	
+	public void setColor(Color c) {
+		currentColor = c;
+	}
+	
+	public void setFigure(int n) {
+		currentFigure = n;
+	}
+	
+	public void setPlein(Boolean plein) {
+		currentPlein = plein;
+	}
+	
+	public boolean getPlein() {
+		return currentPlein;
+	}
 	public void paintComponent( Graphics g )
     {
         super.paintComponent(g);
