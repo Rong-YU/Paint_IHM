@@ -18,11 +18,9 @@ public class ZoneDessin extends JPanel{
 	public ZoneDessin() {
 		// TODO Auto-generated constructor stub
 		figures = new ArrayList<Figure>();
-		figures.add(new Line(1,3,400,500,Color.BLACK,false));
-		figures.add(new Rectangle(500,500,700,600,Color.red,true));
 		currentColor = Color.BLACK;
 		currentPlein = false;
-		currentFigure = 4;
+		currentFigure = 0;
 		figure = null;
 		setBackground(Color.WHITE);
 		MouseHandler handler = new MouseHandler();                                    
@@ -46,7 +44,7 @@ public class ZoneDessin extends JPanel{
             switch (currentFigure) //0Line 1Rectangle 2Oval 3Cercle 4Triangle
             {
                 case 0:
-                    figure= new Triangle( event.getX(), event.getY(), 
+                    figure= new Line( event.getX(), event.getY(), 
                                                    event.getX(), event.getY(), currentColor, currentPlein);
                     break;
                 case 1:
@@ -76,6 +74,15 @@ public class ZoneDessin extends JPanel{
             figures.add(figure); 
             figure=null; 
             repaint();
-        } 
+        }
+        public void mouseDragged( MouseEvent event )
+        {
+            //sets currentShapeObject x2 & Y2
+            figure.setX2(event.getX());
+            figure.setY2(event.getY());
+            figures.add(figure); 
+            repaint();
+            
+        }
     }
 }
