@@ -20,7 +20,7 @@ public class ZoneDessin extends JPanel{
 		figures = new ArrayList<Figure>();
 		currentColor = Color.BLACK;
 		currentPlein = false;
-		currentFigure = 0;
+		currentFigure = 5;
 		figure = null;
 		setBackground(Color.WHITE);
 		MouseHandler handler = new MouseHandler();                                    
@@ -43,6 +43,19 @@ public class ZoneDessin extends JPanel{
 	public boolean getPlein() {
 		return currentPlein;
 	}
+	
+	public void removeLast() {
+		if(figures.size()>0) {
+			figures.remove(figures.size()-1);
+			repaint();
+		}
+	}
+	
+	public void removeAll() {
+		figures.clear();
+		repaint();
+	}
+	
 	public void paintComponent( Graphics g )
     {
         super.paintComponent(g);
@@ -77,26 +90,50 @@ public class ZoneDessin extends JPanel{
                     figure= new Triangle( event.getX(), event.getY(), 
                                                    event.getX(), event.getY(), currentColor, currentPlein);
                     break;    
-                    
+                case 5:
+                	figure= new Pencil( event.getX(), event.getY(), 
+                            event.getX(), event.getY(), currentColor, currentPlein);
+                	break;
             }
         }
         
         public void mouseReleased( MouseEvent event )
         {
+        	if(currentFigure != 5) {
             figure.setX2(event.getX());
             figure.setY2(event.getY());
             figures.add(figure); 
             figure=null; 
             repaint();
+        	}
+        	else {
+        		figures.add(figure); 
+                figure=null; 
+                repaint();
+        	}
         }
         public void mouseDragged( MouseEvent event )
         {
-            //sets currentShapeObject x2 & Y2
-            figure.setX2(event.getX());
-            figure.setY2(event.getY());
-            figures.add(figure); 
-            repaint();
-            
+        	if(currentFigure != 5) {
+        		if(figures.size()>0) {
+        			figures.remove(figures.size()-1);
+        		}
+	            figure.setX2(event.getX());
+	            figure.setY2(event.getY());
+	            figures.add(figure); 
+	            repaint();
+	            System.out.println(figures.size());
+	        }
+        	else {
+        		if(figures.size()>0) {
+        			figures.remove(figures.size()-1);
+        		}
+        		((Pencil) figure).addPoint(event.getX(),event.getY());
+        		figures.add(figure); 
+        		repaint();
+        		System.out.println(figures.size());
+        	}
         }
+        	
     }
 }

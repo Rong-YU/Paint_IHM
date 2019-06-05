@@ -3,10 +3,15 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.*;
 
 public class MainFrame extends JFrame{
+	private static final String    CTRL_C                = "CTRL+C"; 
+	private static final String    CTRL_Z                = "CTRL+Z"; 
+	 
 	private ZoneDessin zoneDessin = new ZoneDessin();
 	private JButton cercle;
 	private JButton line;
@@ -16,6 +21,10 @@ public class MainFrame extends JFrame{
 	private JButton text;
 	private JButton color;
 	private JButton fill;
+	private JButton pencil;
+	private JButton undo;
+	private JButton clear;
+	
 	private BoutonListener blis = new BoutonListener();
 	public MainFrame() throws Exception{
 		// TODO Auto-generated constructor stub
@@ -28,11 +37,12 @@ public class MainFrame extends JFrame{
         add(this.getPanelWest(), BorderLayout.WEST);
         setSize(1080,768);
         setVisible(true);
+        addKeyListener(new KeyboardListener());
         }
 	
 	public JPanel getPanelWest() {
 		JPanel pan = new JPanel();
-		pan.setLayout(new GridLayout(4, 2, 10, 10));
+		pan.setLayout(new GridLayout(6, 2, 7, 7));
 		cercle = new JButton("Cercle");
 		line = new JButton("Line");
 		oval = new JButton("Oval");
@@ -41,6 +51,9 @@ public class MainFrame extends JFrame{
 		text = new JButton("Text");
 		color = new JButton("Color");
 		fill = new JButton("Fill");
+		pencil = new JButton("Pencil");
+		undo = new JButton("Undo");
+		clear = new JButton("Clear");
 		
 		cercle.addActionListener(blis);
 		line.addActionListener(blis);
@@ -50,6 +63,11 @@ public class MainFrame extends JFrame{
 		text.addActionListener(blis);
 		color.addActionListener(blis);
 		fill.addActionListener(blis);
+		pencil.addActionListener(blis);
+		undo.addActionListener(blis);
+		clear.addActionListener(blis);
+		
+		pan.add(pencil);
 		pan.add(line);
 		pan.add(rectangle);
 		pan.add(oval);
@@ -58,6 +76,8 @@ public class MainFrame extends JFrame{
 		pan.add(text);
 		pan.add(fill);
 		pan.add(color);
+		pan.add(undo);
+		pan.add(clear);
 		return pan;
 	}
 	
@@ -85,6 +105,10 @@ public class MainFrame extends JFrame{
 			else if(e.getSource()==text) {
 				
 			}
+			else if(e.getSource()==pencil) {
+				zoneDessin.setFigure(5);
+			}
+			
 			else if(e.getSource()==fill) {
 				zoneDessin.setPlein(!zoneDessin.getPlein());
 			}
@@ -92,11 +116,37 @@ public class MainFrame extends JFrame{
 				Color color = JColorChooser.showDialog(null, "Pick your color", Color.WHITE);
 				zoneDessin.setColor(color);
 			}
-			
+			else if(e.getSource()==undo) {
+				zoneDessin.removeLast();
+			}
+			else if(e.getSource()==clear) {
+				zoneDessin.removeAll();
+			}
 		}
 		
 	}
 	
+	class KeyboardListener implements KeyListener{
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+			System.out.println(e.getKeyCode());
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		} 
+	
+	}
 	public static void main(String[] args) throws Exception {
 		new MainFrame();
 		}
