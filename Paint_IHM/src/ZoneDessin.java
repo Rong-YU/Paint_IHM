@@ -95,10 +95,13 @@ public class ZoneDessin extends JPanel{
                             event.getX(), event.getY(), currentColor, currentPlein);
                 	break;
             }
+            figures.add(figure);
+            
         }
         
         public void mouseReleased( MouseEvent event )
         {
+        	/*
         	if(currentFigure != 5) {
             figure.setX2(event.getX());
             figure.setY2(event.getY());
@@ -111,27 +114,22 @@ public class ZoneDessin extends JPanel{
                 figure=null; 
                 repaint();
         	}
+        	*/
+        	System.out.println(figures.size());
+        	
         }
         public void mouseDragged( MouseEvent event )
         {
+      
         	if(currentFigure != 5) {
-        		if(figures.size()>0) {
-        			figures.remove(figures.size()-1);
-        		}
-	            figure.setX2(event.getX());
-	            figure.setY2(event.getY());
-	            figures.add(figure); 
+	            figures.get(figures.size()-1).setX2(event.getX());
+	            figures.get(figures.size()-1).setY2(event.getY());
 	            repaint();
-	            System.out.println(figures.size());
 	        }
         	else {
-        		if(figures.size()>0) {
-        			figures.remove(figures.size()-1);
-        		}
-        		((Pencil) figure).addPoint(event.getX(),event.getY());
-        		figures.add(figure); 
+        		
+        		((Pencil) figures.get(figures.size()-1)).addPoint(event.getX(),event.getY());
         		repaint();
-        		System.out.println(figures.size());
         	}
         }
         	

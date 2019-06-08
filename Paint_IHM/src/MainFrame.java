@@ -8,7 +8,7 @@ import java.awt.event.KeyListener;
 
 import javax.swing.*;
 
-public class MainFrame extends JFrame{
+public class MainFrame extends JFrame implements KeyListener{
 	private static final String    CTRL_C                = "CTRL+C"; 
 	private static final String    CTRL_Z                = "CTRL+Z"; 
 	 
@@ -37,7 +37,8 @@ public class MainFrame extends JFrame{
         add(this.getPanelWest(), BorderLayout.WEST);
         setSize(1080,768);
         setVisible(true);
-        addKeyListener(new KeyboardListener());
+        addKeyListener(this);
+        setFocusable(true);
         }
 	
 	public JPanel getPanelWest() {
@@ -150,5 +151,24 @@ public class MainFrame extends JFrame{
 	public static void main(String[] args) throws Exception {
 		new MainFrame();
 		}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		JOptionPane.showMessageDialog(null, "key pressed");
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		JOptionPane.showMessageDialog(null, "key released");
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		JOptionPane.showMessageDialog(null, "你键入了一个键");
+	}
 
 }
