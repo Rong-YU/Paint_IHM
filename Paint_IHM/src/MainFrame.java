@@ -27,6 +27,8 @@ public class MainFrame extends JFrame implements KeyListener{
 	private JButton pencil;
 	private JButton undo;
 	private JButton clear;
+	private JButton save;
+	private JButton load;
 	
 	private BoutonListener blis = new BoutonListener();
 	public MainFrame() throws Exception{
@@ -38,11 +40,23 @@ public class MainFrame extends JFrame implements KeyListener{
 		
         add(zoneDessin, BorderLayout.CENTER);
         add(this.getPanelWest(), BorderLayout.WEST);
+        add(this.getPanelNorth(), BorderLayout.NORTH);
         setSize(1080,768);
         setVisible(true);
         addKeyListener(this);
         setFocusable(true);
         }
+	
+	public JPanel getPanelNorth() {
+		JPanel pan = new JPanel();
+		save = new JButton("Save");
+		load = new JButton("Load");
+		save.addActionListener(blis);
+		load.addActionListener(blis);
+		pan.add(save);
+		pan.add(load);
+		return pan;
+	}
 	
 	public JPanel getPanelWest() {
 		JPanel pan = new JPanel();
@@ -124,6 +138,13 @@ public class MainFrame extends JFrame implements KeyListener{
 			}
 			else if(e.getSource()==clear) {
 				zoneDessin.removeAll();
+			}
+			else if(e.getSource()==save) {
+				zoneDessin.sauve("test");
+			}
+			else if(e.getSource()==load) {
+				zoneDessin.charge("test");
+				zoneDessin.repaint();
 			}
 		}
 		

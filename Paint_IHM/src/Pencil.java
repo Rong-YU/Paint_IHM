@@ -18,7 +18,15 @@ public class Pencil extends Figure {
 		xPoints.add(x);
 		yPoints.add(y);
 	}
-	
+	public String getXY() {
+		String s ="";
+		
+		for(int i = 0; i<xPoints.size();i++) {
+			s+=+xPoints.get(i)+","+yPoints.get(i)+";";
+		}
+		
+		return s;
+	}
 	
 	
 	@Override
