@@ -1,10 +1,13 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Event;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.*;
 
@@ -88,7 +91,6 @@ public class MainFrame extends JFrame implements KeyListener{
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			if(e.getSource()==line) {
-				System.out.println("yes");
 				zoneDessin.setFigure(0);
 			}
 			else if(e.getSource()==rectangle) {
@@ -127,27 +129,6 @@ public class MainFrame extends JFrame implements KeyListener{
 		
 	}
 	
-	class KeyboardListener implements KeyListener{
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			// TODO Auto-generated method stub
-			System.out.println(e.getKeyCode());
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
-		} 
-	
-	}
 	public static void main(String[] args) throws Exception {
 		new MainFrame();
 		}
@@ -155,20 +136,75 @@ public class MainFrame extends JFrame implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		JOptionPane.showMessageDialog(null, "key pressed");
+		if ((e.getKeyCode() == KeyEvent.VK_S) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+			zoneDessin.setFigure(0);
+			zoneDessin.setPlein(true);
+        }
+		else if ((e.getKeyCode() == KeyEvent.VK_S)) {
+			zoneDessin.setFigure(0);
+			zoneDessin.setPlein(false);
+        }
+		else if ((e.getKeyCode() == KeyEvent.VK_R) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+			zoneDessin.setFigure(1);
+			zoneDessin.setPlein(true);
+        }
+		else if ((e.getKeyCode() == KeyEvent.VK_R)) {
+			zoneDessin.setFigure(1);
+			zoneDessin.setPlein(false);
+        }
+		else if ((e.getKeyCode() == KeyEvent.VK_E) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+			zoneDessin.setFigure(2);
+			zoneDessin.setPlein(true);
+        }
+		else if ((e.getKeyCode() == KeyEvent.VK_E)) {
+			zoneDessin.setFigure(2);
+			zoneDessin.setPlein(false);
+        }
+		else if ((e.getKeyCode() == KeyEvent.VK_C) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+			zoneDessin.setFigure(3);
+			zoneDessin.setPlein(true);
+        }
+		else if ((e.getKeyCode() == KeyEvent.VK_C)) {
+			zoneDessin.setFigure(3);
+			zoneDessin.setPlein(false);
+        }
+		else if ((e.getKeyCode() == KeyEvent.VK_T) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+			zoneDessin.setFigure(4);
+			zoneDessin.setPlein(true);
+        }
+		else if ((e.getKeyCode() == KeyEvent.VK_T)) {
+			zoneDessin.setFigure(4);
+			zoneDessin.setPlein(false);
+        }
+		else if ((e.getKeyCode() == KeyEvent.VK_Q) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+			zoneDessin.setFigure(5);
+			zoneDessin.setPlein(true);
+        }
+		else if ((e.getKeyCode() == KeyEvent.VK_Q)) {
+			zoneDessin.setFigure(5);
+			zoneDessin.setPlein(false);
+        }
+		else if ((e.getKeyCode() == KeyEvent.VK_Z) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+			zoneDessin.removeLast();
+        }
+		else if ((e.getKeyCode() == KeyEvent.VK_W)) {
+			Color color = JColorChooser.showDialog(null, "Pick your color", Color.WHITE);
+			zoneDessin.setColor(color);
+        }
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		JOptionPane.showMessageDialog(null, "key released");
+		
+    
 		
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		JOptionPane.showMessageDialog(null, "你键入了一个键");
+		
 	}
 
 }
