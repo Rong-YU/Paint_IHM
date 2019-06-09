@@ -29,8 +29,6 @@ public class Pencil extends Figure {
 		for(int i=0; i<xPoints.size()-1;i++) {
 			g.drawLine(xPoints.get(i), yPoints.get(i), xPoints.get(i+1), yPoints.get(i+1));
 		}
-		
-		
 	}
 
 }
