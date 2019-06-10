@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -12,7 +13,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 public class ZoneDessin extends JPanel{
 	private ArrayList<Figure> figures;
@@ -21,6 +25,7 @@ public class ZoneDessin extends JPanel{
 	private Figure figure;
 	//0Line 1Rectangle 2Oval 3Cercle 4Triangle
 	private boolean currentPlein;
+	JTextField textField;
 	
 	public ZoneDessin() {
 		// TODO Auto-generated constructor stub
@@ -63,19 +68,43 @@ public class ZoneDessin extends JPanel{
 		repaint();
 	}
 	
+	public void addTextField(int x, int y) {
+		textField = new JTextField();
+		add(textField);
+		textField.setLocation(x-3, y-15);
+		textField.setSize(150, 20);
+		setFigure(7);
+	}
+	public void removeTextField() {
+		String input = textField.getText();
+		setFigure(6);
+		if(input.length()>0) {
+			((Text) figures.get(figures.size()-1)).setText(input);
+		}
+		else {
+			figures.remove(figures.size()-1);
+		}
+		remove(textField);
+		repaint();
+	}
+	
 	public void sauve(String nomFichier){
 	    try{
 	      BufferedWriter bw = new BufferedWriter(new FileWriter(new File(nomFichier)));
 
 	      for(Figure figure : this.figures){
-	    	  if(!(figure instanceof Pencil)) {
-	    		  bw.write(figure.getClass() + "\t"+ figure.getColor().getRGB() + "\t"+ figure.getPlein() +"\t"+ figure.getX1() 
-	        			+ "\t" + figure.getY1()+ "\t"+ figure.getX2()+ "\t"+ figure.getY2()  +"\n");
-	      
-	    	  }
-	    	  else {
+	    	  if (figure instanceof Pencil){
 	    		  String s=((Pencil) figure).getXY();
 	    		  bw.write(figure.getClass() + "\t"+ figure.getColor().getRGB() + "\t"+ figure.getPlein() +"\t"+ s+"\n");
+	    	  }
+	    	  else if (figure instanceof Text){
+	    		  String s=((Text) figure).getText();
+	    		  bw.write(figure.getClass() + "\t"+ figure.getColor().getRGB() + "\t"+ figure.getPlein() +"\t"+ figure.getX1() 
+      			+ "\t" + figure.getY1()+ "\t"+ s +"\n");
+	    	  }
+	    	  else {
+	    		  bw.write(figure.getClass() + "\t"+ figure.getColor().getRGB() + "\t"+ figure.getPlein() +"\t"+ figure.getX1() 
+      			+ "\t" + figure.getY1()+ "\t"+ figure.getX2()+ "\t"+ figure.getY2()  +"\n");
 	    	  }
 	      }
 	      bw.close();
@@ -97,7 +126,24 @@ public class ZoneDessin extends JPanel{
 	        String className = st.nextToken().substring(6);
 	        Color color = new Color(Integer.valueOf(st.nextToken()));
 	        boolean plein = Boolean.valueOf(st.nextToken());
-	        if(!className.equals("Pencil")) {
+	        if(className.equals("Text")) {
+	        	int x,y;
+	        	x= Integer.valueOf(st.nextToken());
+	        	y=Integer.valueOf(st.nextToken());
+	        	figure = new Text(x,y,color);
+	        	((Text) figure).setText(st.nextToken());
+	        }
+	        else if(className.equals("Pencil")){
+	        	String coordonnes = st.nextToken();
+	        	figure = new Pencil(0, 0, 0, 0, color, plein);
+	        	StringTokenizer coords = new StringTokenizer(coordonnes, ";");
+	        	while(coords.hasMoreTokens()) {
+	        		String[] s = coords.nextToken().split(",");
+	        		((Pencil) figure).addPoint(Integer.valueOf(s[0]), Integer.valueOf(s[1]));
+	        	}
+	       
+	        }
+	        else {
 	        	int x1,x2,y1,y2;
 	        	x1= Integer.valueOf(st.nextToken());
 	        	y1=Integer.valueOf(st.nextToken());
@@ -110,16 +156,6 @@ public class ZoneDessin extends JPanel{
 		        	case "Rectangle": figure = new Rectangle(x1, y1, x2, y2, color, plein);break;
 		        	case "Triangle": figure = new Triangle(x1, y1, x2, y2, color, plein);((Triangle) figure).calcCoor();break;
 	        	}
-	        }
-	        else {
-	        	String coordonnes = st.nextToken();
-	        	figure = new Pencil(0, 0, 0, 0, color, plein);
-	        	StringTokenizer coords = new StringTokenizer(coordonnes, ";");
-	        	while(coords.hasMoreTokens()) {
-	        		String[] s = coords.nextToken().split(",");
-	        		((Pencil) figure).addPoint(Integer.valueOf(s[0]), Integer.valueOf(s[1]));
-	        	}
-	        	
 	        }
 	        figures.add(figure);
 	        line = br.readLine();
@@ -148,63 +184,65 @@ public class ZoneDessin extends JPanel{
                 case 0:
                     figure= new Line( event.getX(), event.getY(), 
                                                    event.getX(), event.getY(), currentColor, currentPlein);
+                    figures.add(figure);
                     break;
                 case 1:
                     figure = new Rectangle( event.getX(), event.getY(), 
                                                         event.getX(), event.getY(), currentColor, currentPlein);
+                    figures.add(figure);
                     break;
                 case 2:
                     figure= new Oval( event.getX(), event.getY(), 
                                                    event.getX(), event.getY(), currentColor, currentPlein);
+                    figures.add(figure);
                     break;
                 case 3:
                     figure= new Cercle( event.getX(), event.getY(), 
                                                    event.getX(), event.getY(), currentColor, currentPlein);
+                    figures.add(figure);
                     break;
                 case 4:
                     figure= new Triangle( event.getX(), event.getY(), 
                                                    event.getX(), event.getY(), currentColor, currentPlein);
+                    figures.add(figure);
                     break;    
                 case 5:
                 	figure= new Pencil( event.getX(), event.getY(), 
                             event.getX(), event.getY(), currentColor, currentPlein);
+                	figures.add(figure);
+                	break;
+                case 6:
+                	figure= new Text( event.getX(), event.getY(), currentColor);
+                	addTextField(event.getX(), event.getY());
+                	figures.add(figure);
+                	break;
+                case 7:
+                	removeTextField();
                 	break;
             }
-            figures.add(figure);
             
         }
         
         public void mouseReleased( MouseEvent event )
         {
-        	/*
-        	if(currentFigure != 5) {
-            figure.setX2(event.getX());
-            figure.setY2(event.getY());
-            figures.add(figure); 
-            figure=null; 
-            repaint();
-        	}
-        	else {
-        		figures.add(figure); 
-                figure=null; 
-                repaint();
-        	}
-        	*/
+        	
         	System.out.println(figures.size());
         	
         }
         public void mouseDragged( MouseEvent event )
         {
-      
-        	if(currentFigure != 5) {
-	            figures.get(figures.size()-1).setX2(event.getX());
-	            figures.get(figures.size()-1).setY2(event.getY());
-	            repaint();
-	        }
-        	else {
+        	if (currentFigure == 5){
         		
         		((Pencil) figures.get(figures.size()-1)).addPoint(event.getX(),event.getY());
         		repaint();
+        	}
+        	else if (currentFigure == 6) {
+        		
+        	}
+        	else {
+        		figures.get(figures.size()-1).setX2(event.getX());
+	            figures.get(figures.size()-1).setY2(event.getY());
+	            repaint();
         	}
         }
         	

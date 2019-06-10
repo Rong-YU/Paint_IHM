@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Event;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,6 +30,7 @@ public class MainFrame extends JFrame implements KeyListener{
 	private JButton clear;
 	private JButton save;
 	private JButton load;
+	private JTextField input;
 	
 	private BoutonListener blis = new BoutonListener();
 	public MainFrame() throws Exception{
@@ -49,6 +51,7 @@ public class MainFrame extends JFrame implements KeyListener{
 	
 	public JPanel getPanelNorth() {
 		JPanel pan = new JPanel();
+		pan.setLayout(new FlowLayout(0));
 		save = new JButton("Save");
 		load = new JButton("Load");
 		save.addActionListener(blis);
@@ -119,11 +122,11 @@ public class MainFrame extends JFrame implements KeyListener{
 			else if(e.getSource()==triangle) {
 				zoneDessin.setFigure(4);
 			}
-			else if(e.getSource()==text) {
-				
-			}
 			else if(e.getSource()==pencil) {
 				zoneDessin.setFigure(5);
+			}
+			else if(e.getSource()==text) {
+				zoneDessin.setFigure(6);
 			}
 			
 			else if(e.getSource()==fill) {
