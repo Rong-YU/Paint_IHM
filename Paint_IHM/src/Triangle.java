@@ -2,7 +2,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Triangle extends Figure {
-	private int x3,y3;
 	private int[] yPoints;
 	private int[] xPoints;
 	public Triangle() {

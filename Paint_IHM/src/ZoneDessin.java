@@ -1,9 +1,11 @@
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -13,10 +15,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 
 public class ZoneDessin extends JPanel{
 	private ArrayList<Figure> figures;
@@ -97,6 +97,10 @@ public class ZoneDessin extends JPanel{
 	    		  String s=((Pencil) figure).getXY();
 	    		  bw.write(figure.getClass() + "\t"+ figure.getColor().getRGB() + "\t"+ figure.getPlein() +"\t"+ s+"\n");
 	    	  }
+	    	  else if (figure instanceof Eraser){
+	    		  String s=((Eraser) figure).getXY();
+	    		  bw.write(figure.getClass() + "\t"+ figure.getColor().getRGB() + "\t"+ figure.getPlein() +"\t"+ s+"\n");
+	    	  }
 	    	  else if (figure instanceof Text){
 	    		  String s=((Text) figure).getText();
 	    		  bw.write(figure.getClass() + "\t"+ figure.getColor().getRGB() + "\t"+ figure.getPlein() +"\t"+ figure.getX1() 
@@ -143,6 +147,16 @@ public class ZoneDessin extends JPanel{
 	        	}
 	       
 	        }
+	        else if(className.equals("Eraser")){
+	        	String coordonnes = st.nextToken();
+	        	figure = new Eraser(0, 0, 0, 0, color, plein);
+	        	StringTokenizer coords = new StringTokenizer(coordonnes, ";");
+	        	while(coords.hasMoreTokens()) {
+	        		String[] s = coords.nextToken().split(",");
+	        		((Eraser) figure).addPoint(Integer.valueOf(s[0]), Integer.valueOf(s[1]));
+	        	}
+	       
+	        }
 	        else {
 	        	int x1,x2,y1,y2;
 	        	x1= Integer.valueOf(st.nextToken());
@@ -166,6 +180,20 @@ public class ZoneDessin extends JPanel{
 	      System.out.println(e);
 	    }
 	  }
+	
+	public void setCursor() {
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		Image image = toolkit.getImage("Eraser.png");
+		System.out.println("width:"+image.getWidth(null)+" height:"+image.getHeight(null));
+
+		Cursor c = toolkit.createCustomCursor(image , new Point(0,0), "img");
+		
+		setCursor (c);
+	}
+	
+	public void setDefaultCursor() {
+		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+	}
 	
 	public void paintComponent( Graphics g )
     {
@@ -219,7 +247,13 @@ public class ZoneDessin extends JPanel{
                 case 7:
                 	removeTextField();
                 	break;
+                case 8:
+                	figure= new Eraser( event.getX()+16, event.getY()+16, 
+                            event.getX(), event.getY(), currentColor, currentPlein);
+                	figures.add(figure);
+                	break;
             }
+            repaint();
             
         }
         
@@ -236,8 +270,9 @@ public class ZoneDessin extends JPanel{
         		((Pencil) figures.get(figures.size()-1)).addPoint(event.getX(),event.getY());
         		repaint();
         	}
-        	else if (currentFigure == 6) {
-        		
+        	else if (currentFigure == 8) {
+        		((Eraser) figures.get(figures.size()-1)).addPoint(event.getX()+16,event.getY()+16);
+        		repaint();
         	}
         	else {
         		figures.get(figures.size()-1).setX2(event.getX());
@@ -245,6 +280,14 @@ public class ZoneDessin extends JPanel{
 	            repaint();
         	}
         }
-        	
+        public void mouseEntered(MouseEvent e)
+        {
+        	if(currentFigure == 8) {
+        		setCursor();
+	        }
+        	else {
+        		setDefaultCursor();
+        	}
+        }   	
     }
 }

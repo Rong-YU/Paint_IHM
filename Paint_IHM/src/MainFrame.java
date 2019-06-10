@@ -26,11 +26,12 @@ public class MainFrame extends JFrame implements KeyListener{
 	private JButton color;
 	private JButton fill;
 	private JButton pencil;
+	private JButton eraser;
 	private JButton undo;
 	private JButton clear;
 	private JButton save;
 	private JButton load;
-	private JTextField input;
+	
 	
 	private BoutonListener blis = new BoutonListener();
 	public MainFrame() throws Exception{
@@ -75,6 +76,7 @@ public class MainFrame extends JFrame implements KeyListener{
 		pencil = new JButton("Pencil");
 		undo = new JButton("Undo");
 		clear = new JButton("Clear");
+		eraser = new JButton("Eraser");
 		
 		cercle.addActionListener(blis);
 		line.addActionListener(blis);
@@ -87,6 +89,7 @@ public class MainFrame extends JFrame implements KeyListener{
 		pencil.addActionListener(blis);
 		undo.addActionListener(blis);
 		clear.addActionListener(blis);
+		eraser.addActionListener(blis);
 		
 		pan.add(pencil);
 		pan.add(line);
@@ -97,6 +100,7 @@ public class MainFrame extends JFrame implements KeyListener{
 		pan.add(text);
 		pan.add(fill);
 		pan.add(color);
+		pan.add(eraser);
 		pan.add(undo);
 		pan.add(clear);
 		return pan;
@@ -127,6 +131,9 @@ public class MainFrame extends JFrame implements KeyListener{
 			}
 			else if(e.getSource()==text) {
 				zoneDessin.setFigure(6);
+			}
+			else if(e.getSource()==eraser) {
+				zoneDessin.setFigure(8);
 			}
 			
 			else if(e.getSource()==fill) {
