@@ -12,7 +12,7 @@ import java.util.Set;
 
 import javax.swing.*;
 
-public class MainFrame extends JFrame implements KeyListener{
+public class MainFrame extends JFrame implements KeyListener, ActionListener{
 	private static final String    CTRL_C                = "CTRL+C"; 
 	private static final String    CTRL_Z                = "CTRL+Z"; 
 	 
@@ -31,9 +31,11 @@ public class MainFrame extends JFrame implements KeyListener{
 	private JButton clear;
 	private JButton save;
 	private JButton load;
+	JFileChooser chooser;
+	String choosertitle;
 	
 	
-	private BoutonListener blis = new BoutonListener();
+	//private BoutonListener blis = new BoutonListener();
 	public MainFrame() throws Exception{
 		// TODO Auto-generated constructor stub
 		super("Paint");
@@ -55,8 +57,8 @@ public class MainFrame extends JFrame implements KeyListener{
 		pan.setLayout(new FlowLayout(0));
 		save = new JButton("Save");
 		load = new JButton("Load");
-		save.addActionListener(blis);
-		load.addActionListener(blis);
+		save.addActionListener(this);
+		load.addActionListener(this);
 		pan.add(save);
 		pan.add(load);
 		return pan;
@@ -77,7 +79,7 @@ public class MainFrame extends JFrame implements KeyListener{
 		undo = new JButton("Undo");
 		clear = new JButton("Clear");
 		eraser = new JButton("Eraser");
-		
+		/*
 		cercle.addActionListener(blis);
 		line.addActionListener(blis);
 		oval.addActionListener(blis);
@@ -90,6 +92,19 @@ public class MainFrame extends JFrame implements KeyListener{
 		undo.addActionListener(blis);
 		clear.addActionListener(blis);
 		eraser.addActionListener(blis);
+		*/
+		cercle.addActionListener(this);
+		line.addActionListener(this);
+		oval.addActionListener(this);
+		rectangle.addActionListener(this);
+		triangle.addActionListener(this);
+		text.addActionListener(this);
+		color.addActionListener(this);
+		fill.addActionListener(this);
+		pencil.addActionListener(this);
+		undo.addActionListener(this);
+		clear.addActionListener(this);
+		eraser.addActionListener(this);
 		
 		pan.add(pencil);
 		pan.add(line);
@@ -105,7 +120,7 @@ public class MainFrame extends JFrame implements KeyListener{
 		pan.add(clear);
 		return pan;
 	}
-	
+	/*
 	class BoutonListener implements ActionListener{
 
 		@Override
@@ -150,6 +165,7 @@ public class MainFrame extends JFrame implements KeyListener{
 				zoneDessin.removeAll();
 			}
 			else if(e.getSource()==save) {
+				
 				zoneDessin.sauve("test");
 			}
 			else if(e.getSource()==load) {
@@ -159,6 +175,7 @@ public class MainFrame extends JFrame implements KeyListener{
 		}
 		
 	}
+	*/
 	
 	public static void main(String[] args) throws Exception {
 		new MainFrame();
@@ -237,5 +254,56 @@ public class MainFrame extends JFrame implements KeyListener{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource()==line) {
+			zoneDessin.setFigure(0);
+		}
+		else if(e.getSource()==rectangle) {
+			zoneDessin.setFigure(1);
+		}
+		else if(e.getSource()==oval) {
+			zoneDessin.setFigure(2);
+		}
+		else if(e.getSource()==cercle) {
+			zoneDessin.setFigure(3);
+		}
+		else if(e.getSource()==triangle) {
+			zoneDessin.setFigure(4);
+		}
+		else if(e.getSource()==pencil) {
+			zoneDessin.setFigure(5);
+		}
+		else if(e.getSource()==text) {
+			zoneDessin.setFigure(6);
+		}
+		else if(e.getSource()==eraser) {
+			zoneDessin.setFigure(8);
+		}
+		
+		else if(e.getSource()==fill) {
+			zoneDessin.setPlein(!zoneDessin.getPlein());
+		}
+		else if(e.getSource()==color) {
+			Color color = JColorChooser.showDialog(null, "Pick your color", Color.WHITE);
+			zoneDessin.setColor(color);
+		}
+		else if(e.getSource()==undo) {
+			zoneDessin.removeLast();
+		}
+		else if(e.getSource()==clear) {
+			zoneDessin.removeAll();
+		}
+		else if(e.getSource()==save) {
+			zoneDessin.sauve("test");
+		}
+		else if(e.getSource()==load) {
+			zoneDessin.charge("test");
+			zoneDessin.repaint();
+		}
+	}
+
 
 }

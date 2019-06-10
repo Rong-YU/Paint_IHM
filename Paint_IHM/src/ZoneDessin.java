@@ -184,10 +184,7 @@ public class ZoneDessin extends JPanel{
 	public void setCursor() {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Image image = toolkit.getImage("Eraser.png");
-		System.out.println("width:"+image.getWidth(null)+" height:"+image.getHeight(null));
-
 		Cursor c = toolkit.createCustomCursor(image , new Point(0,0), "img");
-		
 		setCursor (c);
 	}
 	
@@ -260,7 +257,7 @@ public class ZoneDessin extends JPanel{
         public void mouseReleased( MouseEvent event )
         {
         	
-        	System.out.println(figures.size());
+        	System.out.println("nombre de figure: "+figures.size());
         	
         }
         public void mouseDragged( MouseEvent event )

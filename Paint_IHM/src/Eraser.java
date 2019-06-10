@@ -42,6 +42,7 @@ public class Eraser extends Figure {
 		for(int i=0; i<xPoints.size()-3;i++) {
 			g2.drawLine(xPoints.get(i), yPoints.get(i), xPoints.get(i+3), yPoints.get(i+3));
 		}
+		g2.setStroke(new BasicStroke(1));
 	}
 
 }
