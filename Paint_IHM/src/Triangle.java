@@ -1,5 +1,7 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 public class Triangle extends Figure {
 	private int[] yPoints;
@@ -12,6 +14,12 @@ public class Triangle extends Figure {
 		super(x1, y1, x2, y2, color, plein);
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Triangle(int x1, int y1, int x2, int y2, Color color, boolean plein, int size) {
+		super(x1, y1, x2, y2, color, plein, size);
+		// TODO Auto-generated constructor stub
+	}
+	
 	
 	public void calcCoor() {
 		yPoints = new int[3];
@@ -30,11 +38,14 @@ public class Triangle extends Figure {
 		// TODO Auto-generated method stub
 		g.setColor(getColor());
 		this.calcCoor();
+
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setStroke(new BasicStroke(getSize()));
 		if(getPlein()) {
-			g.fillPolygon(xPoints, yPoints, 3);
+			g2.fillPolygon(xPoints, yPoints, 3);
 		}
 		else {
-			g.drawPolygon(xPoints, yPoints, 3);
+			g2.drawPolygon(xPoints, yPoints, 3);
 		}
 		
 		

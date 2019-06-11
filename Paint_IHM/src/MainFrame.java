@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -7,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,6 +33,7 @@ public class MainFrame extends JFrame implements KeyListener, ActionListener{
 	private JButton clear;
 	private JButton save;
 	private JButton load;
+	private JComboBox size;
 	JFileChooser chooser;
 	String choosertitle;
 	
@@ -61,38 +64,35 @@ public class MainFrame extends JFrame implements KeyListener, ActionListener{
 		load.addActionListener(this);
 		pan.add(save);
 		pan.add(load);
+		JLabel text = new JLabel("Size:");
+		pan.add(text);
+		size = new JComboBox(); 
+		size.addActionListener(this);
+		for(int i =1;i<33;i++) {
+			size.addItem(i);
+		}
+		pan.add(size);
+		
+		
 		return pan;
 	}
 	
 	public JPanel getPanelWest() {
 		JPanel pan = new JPanel();
-		pan.setLayout(new GridLayout(6, 2, 7, 7));
-		cercle = new JButton("Cercle");
-		line = new JButton("Line");
-		oval = new JButton("Oval");
-		rectangle = new JButton("Rectangle");
-		triangle = new JButton("Triangle");
-		text = new JButton("Text");
-		color = new JButton("Color");
-		fill = new JButton("Fill");
-		pencil = new JButton("Pencil");
-		undo = new JButton("Undo");
-		clear = new JButton("Clear");
-		eraser = new JButton("Eraser");
-		/*
-		cercle.addActionListener(blis);
-		line.addActionListener(blis);
-		oval.addActionListener(blis);
-		rectangle.addActionListener(blis);
-		triangle.addActionListener(blis);
-		text.addActionListener(blis);
-		color.addActionListener(blis);
-		fill.addActionListener(blis);
-		pencil.addActionListener(blis);
-		undo.addActionListener(blis);
-		clear.addActionListener(blis);
-		eraser.addActionListener(blis);
-		*/
+		pan.setLayout(new GridLayout(6, 2));
+		cercle = new JButton("Cercle",new ImageIcon("cercle.png"));
+		line = new JButton("Line",new ImageIcon("segment.png"));
+		oval = new JButton("Oval",new ImageIcon("oval.png"));
+		rectangle = new JButton("Rectangle",new ImageIcon("rectangle.png"));
+		triangle = new JButton("Triangle",new ImageIcon("triangle.png"));
+		text = new JButton("Text",new ImageIcon("text.png"));
+		color = new JButton("Color",new ImageIcon("color.png"));
+		fill = new JButton("Fill",new ImageIcon("cercle.png"));
+		pencil = new JButton("Pencil",new ImageIcon("pencil.png"));
+		undo = new JButton("Undo",new ImageIcon("undo.png"));
+		clear = new JButton("Clear",new ImageIcon("clear.png"));
+		eraser = new JButton("Eraser",new ImageIcon("eraser1.png"));
+		
 		cercle.addActionListener(this);
 		line.addActionListener(this);
 		oval.addActionListener(this);
@@ -120,63 +120,7 @@ public class MainFrame extends JFrame implements KeyListener, ActionListener{
 		pan.add(clear);
 		return pan;
 	}
-	/*
-	class BoutonListener implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			if(e.getSource()==line) {
-				zoneDessin.setFigure(0);
-			}
-			else if(e.getSource()==rectangle) {
-				zoneDessin.setFigure(1);
-			}
-			else if(e.getSource()==oval) {
-				zoneDessin.setFigure(2);
-			}
-			else if(e.getSource()==cercle) {
-				zoneDessin.setFigure(3);
-			}
-			else if(e.getSource()==triangle) {
-				zoneDessin.setFigure(4);
-			}
-			else if(e.getSource()==pencil) {
-				zoneDessin.setFigure(5);
-			}
-			else if(e.getSource()==text) {
-				zoneDessin.setFigure(6);
-			}
-			else if(e.getSource()==eraser) {
-				zoneDessin.setFigure(8);
-			}
-			
-			else if(e.getSource()==fill) {
-				zoneDessin.setPlein(!zoneDessin.getPlein());
-			}
-			else if(e.getSource()==color) {
-				Color color = JColorChooser.showDialog(null, "Pick your color", Color.WHITE);
-				zoneDessin.setColor(color);
-			}
-			else if(e.getSource()==undo) {
-				zoneDessin.removeLast();
-			}
-			else if(e.getSource()==clear) {
-				zoneDessin.removeAll();
-			}
-			else if(e.getSource()==save) {
-				
-				zoneDessin.sauve("test");
-			}
-			else if(e.getSource()==load) {
-				zoneDessin.charge("test");
-				zoneDessin.repaint();
-			}
-		}
 		
-	}
-	*/
-	
 	public static void main(String[] args) throws Exception {
 		new MainFrame();
 		}
@@ -285,10 +229,19 @@ public class MainFrame extends JFrame implements KeyListener, ActionListener{
 		
 		else if(e.getSource()==fill) {
 			zoneDessin.setPlein(!zoneDessin.getPlein());
+			if(zoneDessin.getPlein()) {
+				this.fill.setIcon(new ImageIcon("plein.png"));
+			}
+			else {
+				this.fill.setIcon(new ImageIcon("cercle.png"));
+			}
+			System.out.println("setPlein");
 		}
 		else if(e.getSource()==color) {
 			Color color = JColorChooser.showDialog(null, "Pick your color", Color.WHITE);
 			zoneDessin.setColor(color);
+			this.color.setBackground(color);
+			this.color.setOpaque(true);
 		}
 		else if(e.getSource()==undo) {
 			zoneDessin.removeLast();
@@ -297,11 +250,26 @@ public class MainFrame extends JFrame implements KeyListener, ActionListener{
 			zoneDessin.removeAll();
 		}
 		else if(e.getSource()==save) {
-			zoneDessin.sauve("test");
+			//zoneDessin.sauve("test");
+			JFileChooser filechooser = new JFileChooser();
+			if(filechooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+				File file = filechooser.getSelectedFile();
+				zoneDessin.sauve(file);
+			}
+			
+
 		}
 		else if(e.getSource()==load) {
-			zoneDessin.charge("test");
+			//zoneDessin.charge("test");
+			JFileChooser filechooser = new JFileChooser();
+			if(filechooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+				File file = filechooser.getSelectedFile();
+				zoneDessin.charge(file);
+			}
 			zoneDessin.repaint();
+		}
+		else if(e.getSource()==size) {
+			zoneDessin.setLineSize(size.getSelectedIndex()+1);
 		}
 	}
 

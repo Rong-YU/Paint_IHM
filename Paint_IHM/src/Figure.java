@@ -5,6 +5,7 @@ public abstract class Figure {
 	private int x1, x2, y1,y2;
 	private Color color;
 	private boolean plein;
+	private int size;
 	public Figure() {
 		x1=0;
         y1=0;
@@ -12,6 +13,7 @@ public abstract class Figure {
         y2=0;
         color=Color.BLACK;
         plein = false;
+        size=0;
 	}
 	
 	public Figure(int x1, int y1, int x2, int y2, Color color, boolean plein)
@@ -22,6 +24,18 @@ public abstract class Figure {
         this.y2=y2;
         this.color=color;
         this.plein=plein;
+
+    }
+	
+	public Figure(int x1, int y1, int x2, int y2, Color color, boolean plein, int size)
+    {
+        this.x1=x1;
+        this.y1=y1;
+        this.x2=x2;
+        this.y2=y2;
+        this.color=color;
+        this.plein=plein;
+        this.size = size;
     }
 
 	public void setX1(int x1) {
@@ -56,6 +70,10 @@ public abstract class Figure {
 	}
 	public int getY2() {
 		return y2;
+	}
+	
+	public int getSize() {
+		return size;
 	}
 	
 	public Color getColor() {
