@@ -25,7 +25,7 @@ public class Text extends Figure {
 	@Override
 	public void dessiner(Graphics g) {
 		// TODO Auto-generated method stub
-
+		g.setColor(getColor());
 		g.drawString(text, getX1(), getY1());
 	}
 

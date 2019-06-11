@@ -80,18 +80,18 @@ public class MainFrame extends JFrame implements KeyListener, ActionListener{
 	public JPanel getPanelWest() {
 		JPanel pan = new JPanel();
 		pan.setLayout(new GridLayout(6, 2));
-		cercle = new JButton("Cercle",new ImageIcon("cercle.png"));
-		line = new JButton("Line",new ImageIcon("segment.png"));
-		oval = new JButton("Oval",new ImageIcon("oval.png"));
-		rectangle = new JButton("Rectangle",new ImageIcon("rectangle.png"));
-		triangle = new JButton("Triangle",new ImageIcon("triangle.png"));
-		text = new JButton("Text",new ImageIcon("text.png"));
-		color = new JButton("Color",new ImageIcon("color.png"));
-		fill = new JButton("Fill",new ImageIcon("cercle.png"));
-		pencil = new JButton("Pencil",new ImageIcon("pencil.png"));
-		undo = new JButton("Undo",new ImageIcon("undo.png"));
-		clear = new JButton("Clear",new ImageIcon("clear.png"));
-		eraser = new JButton("Eraser",new ImageIcon("eraser1.png"));
+		cercle = new JButton("Cercle",new ImageIcon(this.getClass().getResource("/images/cercle.png")));
+		line = new JButton("Line",new ImageIcon(this.getClass().getResource("/images/segment.png")));
+		oval = new JButton("Oval",new ImageIcon(this.getClass().getResource("/images/oval.png")));
+		rectangle = new JButton("Rectangle",new ImageIcon(this.getClass().getResource("/images/rectangle.png")));
+		triangle = new JButton("Triangle",new ImageIcon(this.getClass().getResource("/images/triangle.png")));
+		text = new JButton("Text",new ImageIcon(this.getClass().getResource("/images/text.png")));
+		color = new JButton("Color",new ImageIcon(this.getClass().getResource("/images/color.png")));
+		fill = new JButton("Fill",new ImageIcon(this.getClass().getResource("/images/cercle.png")));
+		pencil = new JButton("Pencil",new ImageIcon(this.getClass().getResource("/images/pencil.png")));
+		undo = new JButton("Undo",new ImageIcon(this.getClass().getResource("/images/undo.png")));
+		clear = new JButton("Clear",new ImageIcon(this.getClass().getResource("/images/clear.png")));
+		eraser = new JButton("Eraser",new ImageIcon(this.getClass().getResource("/images/eraser1.png")));
 		
 		cercle.addActionListener(this);
 		line.addActionListener(this);
@@ -201,6 +201,7 @@ public class MainFrame extends JFrame implements KeyListener, ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		this.requestFocus();
 		// TODO Auto-generated method stub
 		if(e.getSource()==line) {
 			zoneDessin.setFigure(0);
@@ -230,10 +231,10 @@ public class MainFrame extends JFrame implements KeyListener, ActionListener{
 		else if(e.getSource()==fill) {
 			zoneDessin.setPlein(!zoneDessin.getPlein());
 			if(zoneDessin.getPlein()) {
-				this.fill.setIcon(new ImageIcon("plein.png"));
+				this.fill.setIcon(new ImageIcon(this.getClass().getResource("/images/plein.png")));
 			}
 			else {
-				this.fill.setIcon(new ImageIcon("cercle.png"));
+				this.fill.setIcon(new ImageIcon(this.getClass().getResource("/images/cercle.png")));
 			}
 			System.out.println("setPlein");
 		}

@@ -83,7 +83,6 @@ public class ZoneDessin extends JPanel{
 	}
 	public void removeTextField() {
 		String input = textField.getText();
-		setFigure(6);
 		if(input.length()>0) {
 			((Text) figures.get(figures.size()-1)).setText(input);
 		}
@@ -92,6 +91,7 @@ public class ZoneDessin extends JPanel{
 		}
 		remove(textField);
 		repaint();
+		setFigure(6);
 	}
 	
 	public void sauve(File file){
@@ -192,7 +192,7 @@ public class ZoneDessin extends JPanel{
 	
 	public void setCursor() {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		Image image = toolkit.getImage("Eraser.png");
+		Image image = toolkit.getImage(this.getClass().getResource("/images/Eraser.png"));
 		Cursor c = toolkit.createCustomCursor(image , new Point(0,0), "img");
 		setCursor (c);
 	}
